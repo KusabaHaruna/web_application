@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>4-1_タグ名を取得</title>
+	</head>
+	<body>
+		<h1>あいさつのことば</h1>
+		<p>Good morning</p>
+		<p>Good afternoon</p>
+		<p>Good evening</p>
+		<script>
+			const ps = document.getElementsByTagName("p");
+			ps[0].innerHTML = "おはようございます。";
+			ps[1].innerHTML = "こんにちは。";// 「こんにちは。」を代入してみよう
+			ps[2].innerHTML = "こんばんは。";// 「こんばんは。」を代入してみよう
+		</script>
+	</body>
+</html>
