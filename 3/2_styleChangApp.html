@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>2_スタイルチェンジアプリ</title>
+	</head>
+	<body>
+		<h1>第3回　スタイルチェンジアプリ</h1>
+		<p id="output1" onclick="anime();">おはよう！</p>
+		<script>
+			const output1 = document.getElementById("output1");
+			function anime() {
+				output1.style.color = "red";
+				output1.style.border = "1px solid gray";
+				output1.style.width = "300px";
+				output1.style.height = "200px";
+				output1.style.backgroundColor = "skyblue";
+				output1.style.textAlign = "center"; //文字や画像に対して、水平方向の揃え方を指定するプロパティ。中央に寄せたり、左寄せにしたりするときに使う。
+				output1.style.lineHeight = "200px"; //文字の行間を設定。（余白）
+			}
+		</script>
+	</body>
+</html>
+
+<!-- 
+*textAlign *
+使い方としては、left,right,centerを指定して使う。
+文字や画像に適用できる。
+-->
+ 

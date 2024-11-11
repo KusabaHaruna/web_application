@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>3_transition</title>
+		<style>
+			#output1 {
+				transition: all 2s linear 0s;
+				width: 100px;
+				height: 100px;
+				border: 1px solid gray; //直線
+				line-height: 100px;
+			}
+		</style>
+</head>
+<body>
+	<h1>第3回　スタイルチェンジアプリ</h1>
+	<p id="output1" onclick = "anime();">おはよう！</p>
+	<script>
+		const output1 = document.getElementById("output1");
+		function anime() {
+			output1.style.color="red";
+			output1.style.border="5px dotted red"; //点線で囲み
+			output1.style.width="300px";
+			output1.style.height="200px";
+			output1.style.backgroundColor="skyblue";
+			output1.style.textAlign="center";
+			output1.style.lineHeight="200px";
+			output1.style.fontSize="50px";
+		}
+	</script>
+</body>
+</html>
