@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1-1_if文</title>
+	</head>
+	<body>
+		<p id="output1">結果</p>
+		<script>
+			const output1 = document.getElementById("output1"); //要素の取得
+			let a = 5;
+			let b = 10;
+			let msg;
+			if ( a===b) {
+				msg = "aとbは同じ値です。";
+			} else if (a < b) {
+				msg = "bの値が大きい。";
+			} else if (b < a) { //つい、a>b にしてしまいがちだが、不等号の向きは揃える方が可読性が高い！
+				msg = "aの値が大きい。";
+			} else {
+				msg = "エラー"; //エラー表示までつけておくと良い
+			}
+
+			output1.innerHTML = msg;
+		</script>
+	</body>
+</html>
+
+<!-- 
+可読性を意識した書き方に注意しよう！
+見返したときに分かりやすさ、伝わりやすさが大切！
+がんばろー
+ -->

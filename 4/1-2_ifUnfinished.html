@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1-2_if文未完成</title>
+	</head>
+	<body>
+		<p>入力：<input type="text" id="input1"></p>
+		<p><button onclick="btn1();">比較</button></p>
+		<p id="output1">結果</p>
+		<script>
+			const input = document.getElementById("output1");
+			let a = 5;
+			let msg;
+			function btn() {
+				let b = input1.value;
+				if (a === b){
+					msg = "等しい";
+				} else if (a < b) {
+					msg = "入力の値は大きい。";
+				} else if (b < a) {
+					msg = "入力の値は小さい";
+				} else {
+					msg = "エラー";
+				}
+				output1.innerHTML = msg;
+			}
+		</script>
+	</body>
+</html>
