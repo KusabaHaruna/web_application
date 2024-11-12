@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1_計算機</title>
+		<!-- 値を入力する枠（入力のはこ）を作る工程 -->
+		<!-- 幅：200px,余白：3px,文字の大きさ：30px,枠を直線で囲む（赤色）1pxの線の太さ,テキストの位置は左寄せ -->
+		
+		<style>
+			input {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid rgb(255, 200, 0); /*枠線は直線で囲む */
+				text-align: center;
+				display: inline-block;
+			}
+/* 足し算ボタンの大きさ 余白30px,文字大きさ30px */
+			button {
+				padding: 30px;
+				font-size: 30px;
+			}
+/* 結果ボタンの設定 */
+			#output {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid gray;
+				text-align: left;
+
+			}
+		</style>
+		
+	</head>
+	<body>
+		<h1>私のオリジナル計算機</h1>
+
+		<!-- 入力aと入力bの入れ物 -->
+		<p>a:<input type="text" id="input1" placeholder="1,2,3"></p> 
+		<p>b:<input type="text" id="input2" placeholder="1,2,3"></p>
+
+		<!-- 足し算ボタン -->
+		<p><button onclick="plus();">足し算</button></p>
+		<!-- 引き算ボタン -->
+		<p><button onclick="minus();">引き算</button></p>
+		<!-- 掛け算ボタン -->
+		<p><button onclick="multiply();">掛け算</button></p>
+		<!-- 割り算ボタン -->
+		<p><button onclick="divide();">割り算</button></p>
+
+		<!-- 結果ボタン -->
+		<p id="output">結果</p>
+
+		<script>
+			const input1 = document.getElementById("input1");
+			const input2 = document.getElementById("input2");
+			const output = document.getElementById("output");
+// 足し算
+			function plus() {
+				let total1 = Number(input1.value) + Number(input2.value);
+				output.innerHTML = total1;
+			}
+// 引き算
+			function minus() {
+				let total1 = Number(input1.value) - Number(input2.value);
+				output.innerHTML = total1;
+			}
+// 掛け算
+			function multiply() {
+				let total1 = Number(input1.value) * Number(input2.value);
+				output.innerHTML = total1;
+			}
+// 割り算
+			function divide() {
+				let total1 = Number(input1.value) / Number(input2.value);
+				output.innerHTML = total1;
+			}
+		</script>
+	</body>
+</html>

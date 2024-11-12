@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1_計算機</title>
+		<style>
+			input {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid red; /*枠線は直線で囲む */
+				text-align: right;
+			}
+
+			button {
+				padding: 30px;
+				font-size: 30px;
+			}
+
+			#output {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid gray;
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>私のオリジナル計算機</h1>
+		<p>a:<input type="text" id="input1" placeholder="1,2,3"></p> 
+		<p>b:<input type="text" id="input2" placeholder="1,2,3"></p>
+		<p><button onclick="plus();">足し算</button></p>
+		<p id="output">結果</p>
+
+		<script>
+			const input1 = document.getElementById("input1");
+			const input2 = document.getElementById("input2");
+			const output = document.getElementById("output");
+			function plus() {
+				let total1 = Number(input1.value) + Number(input2.value);
+				output.innerHTML = total1;
+			}
+		</script>
+	</body>
+</html>
+
+<!-- 
+*placeholder:フォームなどの入力欄にあらかじめ記入されている灰色のテキストのこと
+*padding:余白
+-->

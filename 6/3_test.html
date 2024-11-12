@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1_計算機</title>
+		<!-- スタイルの設定 -->
+		<style>
+			input {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid rgb(0, 255, 234); /* 枠線は直線で囲む */
+				text-align: center;
+			}
+			button {
+				padding: 30px;
+				font-size: 30px;
+				margin: 10px; /* ボタン間の余白を追加 */
+			}
+			#output {
+				width: 200px;
+				padding: 3px;
+				font-size: 30px;
+				border: 1px solid gray;
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>私のオリジナル計算機</h1>
+		<div id="test-container">
+		<p>a:<input type="text" id="input1" placeholder="1,2,3"></p> 
+		<p>b:<input type="text" id="input2" placeholder="1,2,3"></p>
+		<!-- 足し算ボタン -->
+		<p><button onclick="plus();">足し算</button></p>
+		<!-- 引き算ボタン -->
+		<p><button onclick="minus();">引き算</button></p>
+		<!-- 掛け算ボタン -->
+		<p><button onclick="multiply();">掛け算</button></p>
+		<!-- 割り算ボタン -->
+		<p><button onclick="divide();">割り算</button></p>
+		</div>
+		<!-- 結果表示欄 -->
+		<p id="output">結果</p>
+
+		<script>
+			// 入力要素の取得
+			const input1 = document.getElementById("input1");
+			const input2 = document.getElementById("input2");
+			const output = document.getElementById("output");
+
+			// 足し算の処理
+			function plus() {
+				let total1 = Number(input1.value) + Number(input2.value);
+				output.innerHTML = total1;
+			}
+
+			// 引き算の処理
+			function minus() {
+				let total2 = Number(input1.value) - Number(input2.value);
+				output.innerHTML = total2;
+			}
+
+			// 掛け算の処理
+			function multiply() {
+				let total3 = Number(input1.value) * Number(input2.value);
+				output.innerHTML = total3;
+			}
+
+			// 割り算の処理
+			function divide() {
+				let num1 = Number(input1.value);
+				let num2 = Number(input2.value);
+
+				// 0で割る場合の処理
+				if (num2 === 0) {
+					output.innerHTML = "エラー: 0で割ることはできません。";
+				} else {
+					let total4 = num1 / num2;
+					output.innerHTML = total4;
+				}
+			}
+		</script>
+	</body>
+</html>
