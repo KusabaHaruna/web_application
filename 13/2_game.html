@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>12-3-1</title>
+		<style>
+			*{
+				margin: 0px;
+			}
+
+			p{
+				text-align: center;
+			}
+/* canvasは透明な背景なので色やデザインをつける */
+			#canvas1 {
+				border: 1px solid gray;
+			}
+			/* 背景色 */
+			/*#canvas1 {
+				background-color: green;
+				background-size: 100% 100%;
+			}*/
+			#canvas1 {
+    background-image: url('/Users/pontagudetama/Desktop/web_application/13/_i_icon_06984_icon_069840_256.png'); /*画像ファイルの指定 */
+    background-size: 10% 10%; /*画像のサイズ*/
+			}
+		</style>
+	</head>
+	<body>
+		<p>
+			<canvas id="canvas1" width="320" height="480"></canvas>
+		</p>
+		<script>
+			const canvas1 = document.getElementById("canvas1");
+			const ctx1 = canvas1.getContext("2d");
+			
+			//① 変数の設定と初期化
+			const target = {x:250, y:100, dir:1};
+			const player = {x:250, y:400};
+			const ball = {x:-10, y:-10};
+			let point = 0;
+			
+			//
+			const targetImage = new Image();
+			const playerImage = new Image();
+			const ballImage = new Image();
+
+			targetImage.src = "/Users/pontagudetama/Desktop/web_application/13/_i_icon_06891_icon_068910_256.png";
+			playerImage.src = "/Users/pontagudetama/Desktop/web_application/13/_i_icon_06891_icon_068910_256.png";
+			ballImage.src = "/Users/pontagudetama/Desktop/web_application/13/_i_icon_06891_icon_068910_256.png";
+			// 音を読み込む
+			const audio1 = new Audio();
+			audio1.src = "/Users/pontagudetama/Desktop/web_application/13/「よけてみせい！」.mp3"
+			const audio2 = new Audio();
+			audio2.src = "/Users/pontagudetama/Desktop/web_application/13/「ぐおっ！」.mp3"
+			//2,一定時間毎にプログラムgame1を起動させる
+			setInterval(game1,50);
+
+			//3,game1関数
+			function game1() {
+				//画面をクリア
+				ctx1.clearRect(0,0,320,480);
+
+				// 描写（ターゲット）
+				// ctx1.fillStyle = "black";
+				// ctx1.fillRect(target.x -25, target.y -5,50, 10);
+				
+				//円にかえる
+				// ctx1.fillStyle = "black";
+				// ctx1.beginPath();
+				// ctx1.arc(target.x, target.y, 25, 0, Math.PI * 2, false);  // 半径25の円を描画
+				// ctx1.fill();
+
+				//描写（得点）
+				ctx1.fillStyle = "red";
+				ctx1.font = "20px sans-serif";
+				ctx1.fillText(point,target.x, target.y -5);
+				//描写（プレーヤ)
+				ctx1.drawImage(playerImage, player.x - 25,
+				player.y - 25, 50, 50);
+
+				ctx1.drawImage(targetImage, target.x - 25,
+				target.y - 25, 50, 50);
+				//描写（プレイヤー）
+				// ctx1.fillStyle = "blue";
+				// ctx1.fillRect(player.x -25, player.y -5, 50, 10);
+
+				//描写（ボール）
+				ctx1.fillStyle = "red";
+				ctx1.fillRect(ball.x -5, ball.y -5, 10, 10);
+
+				//移動計算
+				target.x += target.dir;
+				ball.y -= 5;
+
+				//壁衝突計算
+				if(target.x <= 25 || target.x >= 295) {
+					target.dir *= -1;
+				}
+
+				//得点計算
+				if (ball.y === 100 && Math.abs(target.x - ball.x) < 25) {
+					point++;
+					  // ボールがターゲットに当たったときに音を鳴らす
+				if (point % 2 === 0) {
+					audio1.play(); //1回目に当たった時
+				} else if (point % 2 === 1){
+					audio2.play(); //2回目に当たった時
+				}
+							}
+			}
+
+			//4,シュート関数
+			canvas1.addEventListener("mousedown", function (){
+				ball.x = player.x;
+				ball.y = player.y;
+			});
+
+			//5,プレーヤコントロール
+			canvas1.addEventListener("mousemove", function(e){
+				const rect = e.target.getBoundingClientRect();
+				player.x = e.clientX - rect.left;
+			});
+		</script>
+	</body>
+</html>
+

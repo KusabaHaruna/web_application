@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>12-3-1</title>
+  <style>
+    * {
+      margin: 0px;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    #canvas1 {
+      border: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    <canvas id="canvas1" width="320" height="480"></canvas>
+  </p>
+  <script>
+    const canvas1 = document.getElementById("canvas1");
+    const ctx1 = canvas1.getContext("2d");
+
+    // 変数の設定と初期化
+    const target = { x: 250, y: 100, radius: 25, isBroken: false, fragments: [] }; // ターゲット情報
+    const player = { x: 250, y: 400 };
+    const ball = { x: -10, y: -10, radius: 5, isFired: false }; // ボールに発射状態を追加
+    let point = 0;  // 得点
+    let hitCount = 0; // ターゲットに当たった回数
+
+    // 1, 一定時間毎にプログラム game1 を起動させる
+    setInterval(game1, 50);
+
+    // 2, game1 関数
+    function game1() {
+      // 画面をクリア
+      ctx1.clearRect(0, 0, 320, 480);
+
+      // 描写（ターゲット）
+      if (target.isBroken) {
+        // 壊れたターゲットの破片を描写
+        target.fragments.forEach(fragment => {
+          fragment.update();
+          fragment.draw();
+        });
+
+        // 破片が完全に消えたらターゲットを復活させる
+        if (target.fragments.every(fragment => fragment.alpha === 0)) {
+          target.isBroken = false;  // ターゲットを復活
+          target.fragments = [];    // 破片をクリア
+        }
+      } else {
+        // 壊れていないターゲット
+        ctx1.fillStyle = "black";
+        ctx1.beginPath();
+        ctx1.arc(target.x, target.y, target.radius, 0, Math.PI * 2);
+        ctx1.fill();
+        ctx1.closePath();
+      }
+
+      // 描写（得点）
+      ctx1.fillStyle = "black";
+      ctx1.font = "20px sans-serif";
+      ctx1.fillText("Score: " + point, 10, 30);
+
+      // 描写（ターゲットに当たった回数）
+      ctx1.fillText("Hits: " + hitCount, 10, 60); // ターゲットに当たった回数を表示
+
+      // 描写（プレイヤー）
+      ctx1.fillStyle = "blue";
+      ctx1.fillRect(player.x - 25, player.y - 5, 50, 10);
+
+      // 描写（ボール）
+      if (ball.isFired) {
+        ctx1.fillStyle = "red";
+        ctx1.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+      }
+
+      // 移動計算
+      if (!target.isBroken) {
+        target.x += 2 * Math.sign(target.x - ball.x); // 壊れていない場合だけ左右移動
+      }
+      if (ball.isFired) {
+        ball.y -= 5;
+      }
+
+      // 壁衝突計算
+      if (target.x <= 25 || target.x > 295) {
+        target.x = Math.max(25, Math.min(target.x, 295)); // 画面外に出ないように
+      }
+
+      // 得点計算
+      if (ball.y <= target.y + target.radius && Math.abs(target.x - ball.x) < target.radius) {
+        point++;             // 得点加算
+        hitCount++;          // ターゲットに当たった回数をカウント
+        target.isBroken = true; // ターゲットが壊れる
+        createFragments(target.x, target.y); // 破片を生成
+        ball.isFired = false; // ボールをリセット
+        ball.x = -10;
+        ball.y = -10;
+      }
+
+      // ボールが画面外に出た場合、リセットする
+      if (ball.y <= 0 || ball.y >= canvas1.height) {
+        ball.isFired = false;
+        ball.x = -10;
+        ball.y = -10;
+      }
+    }
+
+    // 3, ターゲットの破片を生成する関数
+    function createFragments(x, y) {
+      target.fragments = [];
+      for (let i = 0; i < 10; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 2 + 2;
+        target.fragments.push(new Fragment(x, y, angle, speed));
+      }
+    }
+
+    // 4, 破片を管理するクラス
+    class Fragment {
+      constructor(x, y, angle, speed) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 5; // 破片のサイズ
+        this.dx = Math.cos(angle) * speed; // X方向の速度
+        this.dy = Math.sin(angle) * speed; // Y方向の速度
+        this.alpha = 1; // 破片の透明度
+      }
+
+      // 破片の更新
+      update() {
+        this.x += this.dx;
+        this.y += this.dy;
+        this.alpha -= 0.02; // 徐々に透明になる
+        if (this.alpha <= 0) this.alpha = 0; // 完全に透明になったら消える
+      }
+
+      // 破片の描画
+      draw() {
+        ctx1.beginPath();
+        ctx1.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx1.fillStyle = `rgba(255, 0, 0, ${this.alpha})`; // 赤色の破片
+        ctx1.fill();
+        ctx1.closePath();
+      }
+    }
+
+    // 5, シュート関数
+    canvas1.addEventListener("mousedown", function () {
+      if (!ball.isFired) { // ボールがまだ発射されていない場合のみ発射
+        ball.x = player.x;
+        ball.y = player.y;
+        ball.isFired = true; // ボールを発射状態に
+      }
+    });
+
+    // 6, プレイヤーコントロール
+    canvas1.addEventListener("mousemove", function (e) {
+      const rect = e.target.getBoundingClientRect();
+      player.x = e.clientX - rect.left;
+    });
+  </script>
+</body>
+</html>

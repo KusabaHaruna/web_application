@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>12-3-1</title>
+    <style>
+      * {
+        margin: 0px;
+      }
+
+      p {
+        text-align: center;
+      }
+
+      #canvas1 {
+        border: 1px solid gray;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      <canvas id="canvas1" width="320" height="480"></canvas>
+    </p>
+    <script>
+      const canvas1 = document.getElementById("canvas1");
+      const ctx1 = canvas1.getContext("2d");
+
+      // 画像を用意
+      const targetImage = new Image();
+      targetImage.src = '/Users/pontagudetama/Desktop/web_application/13/_i_icon_06984_icon_069840_256.png'; // 画像URLを指定
+
+      // 変数の設定と初期化
+      const target = { x: 250, y: 100, dir: 1 };
+      const player = { x: 250, y: 400 };
+      const ball = { x: -10, y: -10 };
+      let point = 0;
+
+      // 音を読み込む
+      const hitSound = 
+				new Audio('/Users/pontagudetama/Desktop/web_application/13/「よけてみせい！」.mp3'); // 任意の音声ファイル
+				
+		
+
+		
+
+				// 一定時間ごとにgame1を実行
+      setInterval(game1, 50);
+
+      // ゲームループ
+      function game1() {
+        // 画面をクリア
+        ctx1.clearRect(0, 0, 320, 480);
+
+        // ターゲットの画像を描画（画像サイズを指定）
+        ctx1.drawImage(targetImage, target.x - 25, target.y - 25, 50, 50); // 画像をターゲット位置に描画
+
+        // 得点を表示
+        ctx1.fillStyle = "black";
+        ctx1.font = "20px sans-serif";
+        ctx1.fillText(point, target.x, target.y - 5);
+
+        // プレイヤーの描画
+        ctx1.fillStyle = "blue";
+        ctx1.fillRect(player.x - 25, player.y - 5, 50, 10);
+
+        // ボールの描画
+        ctx1.fillStyle = "red";
+        ctx1.fillRect(ball.x - 5, ball.y - 5, 10, 10);
+
+        // 移動計算
+        target.x += target.dir;
+        ball.y -= 5;
+
+        // 壁衝突計算
+        if (target.x <= 25 || target.x >= 295) {
+          target.dir *= -1;
+        }
+
+        // 得点計算
+        if (ball.y === 100 && Math.abs(target.x - ball.x) < 25) {
+          point++;
+          hitSound.play();  // ボールがターゲットに当たったときに音を鳴らす
+        }
+      }
+
+      // シュート関数
+      canvas1.addEventListener("mousedown", function () {
+        ball.x = player.x;
+        ball.y = player.y;
+      });
+
+      // プレーヤーコントロール
+      canvas1.addEventListener("mousemove", function (e) {
+        const rect = e.target.getBoundingClientRect();
+        player.x = e.clientX - rect.left;
+      });
+    </script>
+  </body>
+</html>

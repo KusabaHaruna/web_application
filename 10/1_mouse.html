@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>1_マウス座標</title>
+	</head>
+	<body>
+		<h1>第10回　座標位置アプリ</h1>
+		<p>x座標：<span id="px"></span>px</p>
+		<p>y座標：<span id="py"></span>px</p>
+		<script>
+			const px = document.getElementById("px");
+			const py = document.getElementById("py");
+			document.addEventListener("mousemove",
+			function (e) {
+				let x = e.clientX;
+				let y = e.clientY;
+				px.innerHTML = x;
+				py.innerHTML = y;
+			}
+			);
+		</script>
+	</body>
+</html>

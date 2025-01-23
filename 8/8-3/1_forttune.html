@@ -1,0 +1,29 @@
+<!-- 8/3_fortune.html -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>3_おみくじ</title>
+	</head>
+	<body>
+		<button onclick="btn1();">おみくじをふる</button>
+		<p id="output1">おみくじの結果</p>
+		<script>
+			const output1 = document.getElementById("output1");
+			let msg;
+			function btn1() {
+				let r = Math.floor(Math.random() * 3);
+				if (r === 0) {
+					msg = "大吉";
+				} else if (r === 1) {
+					msg = "中吉";
+				} else if (r === 2) {
+					msg = "笑吉";
+				} else {
+					mes = "エラー";
+				}
+				output1.innerHTML = msg + "がでました！！"
+			}
+		</script>
+	</body>
+</html>

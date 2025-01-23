@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>12-3-1</title>
+		<style>
+/* *{margin:0px;}は<p>,<div>,<h1>,<a>の全ての要素に作用するという意味。 */
+			*{
+				margin: 0px;
+			} 
+/* 行を揃えることのコード */
+			p{
+				text-align: center;
+			}
+/* canvas1に対してgray,1pxで枠線をつけるという意味。 */
+			#canvas1 {
+				border: 1px solid gray;
+			}
+/* #canvas1{
+background-image: url(bg1.png);//この名前のファイル名で
+background-size: 100% 100%; //大きさを表す
+} */
+		</style>
+	</head>
+	<body>
+		<p>
+			<canvas id="canvas1" width="320" height="480"></canvas>
+		</p>
+		<script>
+			const canvas1 = document.getElementById("canvas1");
+			const ctx1 = canvas1.getContext("2d");
+
+			//①変数の設定と初期化
+			const target = {x:250, y:100, dir:1}; //dir:1は右向きに進みますよーという意味。dir:-1にすると左向きに動く
+			const player = {x:250, y:400};
+			const ball = {x:-10, y:-10};
+			let point = 0;
+
+			//②一定時間毎にプログラムgame1を起動させる
+			setInterval(game1,50);
+
+			//③game1関数
+			function game1() {
+				//画面をクリア
+				ctx1.clearRect(0,0,320,480);
+
+				//描写（ターゲット）
+				ctx1.fillStyle = "black";
+				ctx1.fillRect(target.x -25, target.y -5,50, 10);
+
+				//描写（得点）
+				ctx1.fillStyle = "black";
+				ctx1.font = "20px sans-serif";
+				ctx1.fillText(point,target.x, target.y -5);
+
+				//描写（プレイヤー）
+				ctx1.fillStyle = "blue";
+				ctx1.fillRect(player.x -25, player.y -5, 50, 10);
+
+				//描写（ボール）
+				ctx1.fillStyle = "red";
+				ctx1.fillRect(ball.x -5, ball.y -5, 10, 10);
+
+				//移動計算
+				target.x += target.dir;
+				ball.y -= 5;
+
+				//壁衝突計算
+				if(target.x < 25 || target.x > 295) {
+					target.dir *= -1;
+				}
+				//得点計算
+				if ((ball.y === 100) && (Math.abs(target.x -ball.x)< 25)) {
+					point++;
+				}
+			}
+
+			//④シュート関数
+			canvas1.addEventListener("mousedown", function (){
+				ball.x = player.x;
+				ball.y = player.y;
+			});
+
+			//⑤プレーヤコントロール
+			canvas1.addEventListener("mousemove", function(e){
+				const rect = e.target.getBoundingClientRect();
+				player.x = e.clientX - rect.left;
+			});
+		</script>
+	</body>
+</html>

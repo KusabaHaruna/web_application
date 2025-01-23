@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>おみくじ</title>
+		<style>
+			span{
+				color:red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>おみくじ</h1>
+		<button onclick="Omikuji();">おみくじを引く</button>
+		<p>あなたの運勢は…<span id="result">大吉</span>です！</p>
+		<script>
+			function Omikuji() {
+			let fortune = ["大吉","中吉","小吉","吉","凶"];
+			let random = Math.floor( Math.random() * fortune.length);
+			document.getElementById("result").innerHTML = fortune[random];
+			}
+		</script>
+	</body>
+</html>

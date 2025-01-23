@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>2 タッチ座標</title>
+		<meta name="viewport" content="width=device-width">
+	</head>
+	<body>
+		<p>x座標：<span id="px"></span>px</p>
+		<p>y座標：<span id="py"></span>px</p>
+		<script>
+			const px = document.getElementById("px");
+			const py = document.getElementById("py");
+			document.addEventListener("touchmove",
+				function (e) {
+					e.preventDefault();
+					let x = e.touches[0].clientX;
+					let y = e.touches[0].clientY;
+					px.innerHTML = x;
+					py.innerHTML = y;
+				}, { passive: false }
+			);
+		</script>
+	</body>
+</html>

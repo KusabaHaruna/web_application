@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>くまさんとドングリ集め</title>
+		<style>
+			*{
+				margin: 0px;
+			}
+			p{
+				text-align: center;
+			}
+
+			#canvas1{
+				background-image: url(bg1.png);
+				background-size: 10% 10%;
+			}
+			</style>
+	</head>
+	<body>
+		<p>
+			<canvas id="canvas1" width="320" height="480"></canvas>
+		</p>
+		<script>
+			
+  const canvas1 = document.getElementById("canvas1");
+  const ctx1 = canvas1.getContext("2d");
+
+  // BGMの設定
+  const bgm = new Audio();
+  bgm.src = "bgm.mp3";  // BGMファイルのパス
+  bgm.loop = true;  // ループ再生
+  bgm.volume = 0.5;  // 音量を50%に設定（調整可）
+  bgm.play();  // 再生を開始
+
+	// ユーザーがクリックした時にBGMを再生
+	document.body.addEventListener("mousedown", function () {
+  bgm.play();
+	});
+
+
+  // ①変数の設定と初期化
+  const targets = [
+    {x: 250, y: 100, dir: 1, score: 30, targetScore: 0},  // 1つ目のターゲット、得点30
+    {x: 150, y: 150, dir: -1, score: 20, targetScore: 0}, // 2つ目のターゲット、得点20
+    {x: 100, y: 200, dir: 1, score: 10, targetScore: 0}   // 3つ目のターゲット、得点10
+  ];
+
+  const player = {x: 250, y: 400};
+  const ball = {x: -10, y: -10};
+  let totalPoint = 0;  // 総得点
+
+  // 画像の設定（アレンジ部分）
+  const targetImage = new Image();
+  const playerImage = new Image();
+  const ballImage = new Image();
+
+  targetImage.src = "target.png";
+  playerImage.src = "player.png";
+  ballImage.src = "ball.png";
+
+  // 音を設定
+  const audio1 = new Audio();
+  audio1.src = "audio1.mp3";
+
+  // ②一定時間毎にプログラムgame1を起動させる
+  setInterval(game1, 50);
+
+  // ③game1関数
+  function game1() {
+    // 画面をクリア
+    ctx1.clearRect(0, 0, 320, 480);
+
+    // すべてのターゲットを描画
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      ctx1.drawImage(targetImage, target.x - 25, target.y - 25, 50, 50);
+
+      // ターゲットごとの得点を表示
+      ctx1.fillStyle = "black";
+      ctx1.font = "16px sans-serif";
+      ctx1.fillText(target.targetScore, target.x, target.y - 30);
+    }
+
+    // 描画(プレイヤー)
+    ctx1.drawImage(playerImage, player.x - 20, player.y - 20, 50, 50);
+
+    // 描画(ボール)
+    ctx1.drawImage(ballImage, ball.x - 5, ball.y - 5, 30, 30);
+
+    // 総得点を描画
+    ctx1.fillStyle = "black";
+    ctx1.font = "20px sans-serif";
+    ctx1.fillText("Total Score: " + totalPoint, 10, 30);
+
+    // 移動計算(ターゲット)
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      target.x += target.dir;
+
+      // 壁との衝突計算
+      if (target.x < 25 || 295 < target.x) {
+        target.dir *= -1;
+      }
+    }
+
+    // 移動計算（ボール）
+    ball.y -= 5;
+
+    // 得点計算（ボールがターゲットに当たったかどうか判定）
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      if (ball.y === target.y && Math.abs(target.x - ball.x) < 25) {
+        target.targetScore += target.score;  // 当たったターゲットの得点を加算
+        totalPoint += target.score;  // 総得点も加算
+        audio1.play();
+        // ボールをリセット（次のシュートのために）
+        ball.x = -10;
+        ball.y = -10;
+      }
+    }
+  }
+
+  // ④シュート関数
+  canvas1.addEventListener("mousedown", function () {
+    ball.x = player.x;
+    ball.y = player.y;
+  });
+
+  // ⑤プレーヤコントロール
+  canvas1.addEventListener("mousemove", function (e) {
+    const rect = e.target.getBoundingClientRect();
+    player.x = e.clientX - rect.left;
+  });
+</script>
+	</body>
+</html>
